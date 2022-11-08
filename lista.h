@@ -21,7 +21,7 @@ void init (lista *L){
 (*L).cursor_aux=NULL;
 }
 
-int insenty (lista *L){
+int isemty (lista *L){
 return(if L.acceso ==NULL)}
 
 int copy (lista *L){

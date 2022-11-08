@@ -15,7 +15,7 @@ typedef struct{
 }vehiculo;
 
 typedef struct{
-int doc[6];
+int doc;
 int nro_doc;
 long long num_tramite;
 
@@ -93,25 +93,25 @@ void Ingresar_Prenda ( prenda *P,float capital_entregadox,float interes_mensualx
 int recMac (vehiculo p){
     return (p.marca);
 }
-char* recPat (vehiculo p){
+int vehiculo recPat (vehiculo p){
     return (p.pat);
 }
-float recVal_Tasa (vehiculo p){
+float vehiculo recValT (vehiculo p){
     return (p.valor_tasacion);
 }
-int rectMod (vehiculo p){
+int vehiculo rectMod (vehiculo p){
     return (p.modelo);
 }
-int recCant_cuotas (prenda p){
+int prenda recCant_cuotas (prenda p){
     return (p.cantidad_cuotas);
 }
-int recCant_cuotasPagas (prenda p){
+int prenda recCant_cuotasPagas (prenda p){
     return (p.cantidad_cuotas_pagas);
 }
-float recCap_entregado (prenda p){
+float prenda recCap_entregado (prenda p){
     return (p.capital_entregado);
 }
-float recInteres (prenda p){
+float  prenda recInteres (prenda p){
     return (p.interes_mensual);
 }
 fecha   recFech_inicio (prenda p){
@@ -123,7 +123,7 @@ fecha recFech_fin (prenda p){
 char* recNyApe (cliente p){
     return (p.NyAp);
 }
-long long  recCuil (cliente p){
+int recCuil (cliente p){
     return (p.cuit);
 }
 float ingMensual_cliente (cliente p){
@@ -132,10 +132,10 @@ float ingMensual_cliente (cliente p){
 int recTipo_doc (documento p){
     return (p.doc);
 }
-long int recNum_doc (documento p){
+int recNum_doc (documento p){
     return (p.nro_doc);
 }
-long long recNum_tramite (documento p){
+int recNum_tramite (documento p){
     return (p.num_tramite);
 }
 #endif // CLIENTE_PRENDARIO_H_INCLUDED

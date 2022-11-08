@@ -1,5 +1,5 @@
-#ifndef TPM1_PROG1_H_INCLUDED
-#define TPM1_PROG1_H_INCLUDED
+#ifndef LISTA_H_INCLUDED
+#define LISTA_H_INCLUDED
 
 
 typedef struct {
@@ -64,4 +64,4 @@ void supress (lista *L){
 
 
 
-#endif // TPM1_PROG1_H_INCLUDED
+#endif // LISTA_H_INCLUDED

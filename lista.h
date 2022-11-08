@@ -9,57 +9,55 @@ struct nodo *puntero;
 
 
 typedef struct {
-nodo *acceso;
-nodo *cursor;
-nodo *cursor_aux;
+nodo *cab;
+nodo *ultimo;
+nodo *aux;
 }lista;
 
 
 void init (lista *L){
-(*L).acceso=NULL;
-(*L).cursor=NULL;
-(*L).cursor_aux=NULL;
+(*L).cab=NULL;
+(*L).ultimo=NULL;
+(*L).aux=NULL;
 }
 
-int isemty (lista *L){
-return(if L.acceso ==NULL)}
+int isemty (lista L){
+return(if L.cab ==NULL)}
 
 int copy (lista *L){
-return(L.cursor)}
+return(L.ultimo)}
 
 void insert (lista *L, prenda elemento){
 nodo *nuevo;
 nuevo=(nodo*)malloc(sizeof(nodo));
 nuevo.vipd=elemento;
-if ((*L).acceso==(*L).cursor){
-    (*L).acceso=nuevo;
-    nuevo.puntero=(*L).cursor;
-    (*L).cursor=(*L).acceso;
-    (*L).cursor_aux=(*L).acceso }
+if ( isemty(L) )// isempty
+    {
+    (*L).cab=nuevo;
+    nuevo.puntero=(*L).ultimo;
+    (*L).cursor=(*L).cab;
+    (*L).cursor_aux=(*L).cab; }
 else {
-        (*L).cursor_aux=nuevo;
-        nuevo.puntero=(*L).cursor;
+        (*L).aux=nuevo;
+        nuevo.puntero=(*L).ultimo;
         (*L).cursor=nuevo;
 }
 
 }
 
 void reset (lista *L){
-(*L).cursor=(*L).acceso;
-(*L).cursor_aux=(*L).acceso;
+(*L).ultimo=(*L).cab;
+(*L).aux=(*L).cab;
 }
 
 void forward (lista *L){
-(*L).cursor_aux=(*L).cursor;
-(*L).cursor=(*L).cursor;
+(*L).aux=(*L).ultimo;
+(*L).ultimo=(*L).ultimo;
 }
 
 void supress (lista *L){
 
 }
-
-
-
 
 
 

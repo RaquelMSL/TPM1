@@ -93,25 +93,25 @@ void Ingresar_Prenda ( prenda *P,float capital_entregadox,float interes_mensualx
 int recMac (vehiculo p){
     return (p.marca);
 }
-int vehiculo recPat (vehiculo p){
+char* recPat (vehiculo p){
     return (p.pat);
 }
-float vehiculo recValT (vehiculo p){
+float recVal_Tasa (vehiculo p){
     return (p.valor_tasacion);
 }
-int vehiculo rectMod (vehiculo p){
+int rectMod (vehiculo p){
     return (p.modelo);
 }
-int prenda recCant_cuotas (prenda p){
+int recCant_cuotas (prenda p){
     return (p.cantidad_cuotas);
 }
-int prenda recCant_cuotasPagas (prenda p){
+int recCant_cuotasPagas (prenda p){
     return (p.cantidad_cuotas_pagas);
 }
-float prenda recCap_entregado (prenda p){
+float recCap_entregado (prenda p){
     return (p.capital_entregado);
 }
-float  prenda recInteres (prenda p){
+float recInteres (prenda p){
     return (p.interes_mensual);
 }
 fecha   recFech_inicio (prenda p){
@@ -123,7 +123,7 @@ fecha recFech_fin (prenda p){
 char* recNyApe (cliente p){
     return (p.NyAp);
 }
-int recCuil (cliente p){
+long long  recCuil (cliente p){
     return (p.cuit);
 }
 float ingMensual_cliente (cliente p){
@@ -132,10 +132,10 @@ float ingMensual_cliente (cliente p){
 int recTipo_doc (documento p){
     return (p.doc);
 }
-int recNum_doc (documento p){
+long int recNum_doc (documento p){
     return (p.nro_doc);
 }
-int recNum_tramite (documento p){
+long long recNum_tramite (documento p){
     return (p.num_tramite);
 }
 #endif // CLIENTE_PRENDARIO_H_INCLUDED

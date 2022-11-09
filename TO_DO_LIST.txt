@@ -3,6 +3,7 @@
 >declarar garante en cliente...h como estructura aparte 
 >agregar las funciones de ingresar,modificar y mostrar   al TDA 
 >declarar la funcion prenda que contenga todos los structs anteriormente mencionados y todos sus atributos 
+pepe
 
 >terminar el practico jaja 
 >???

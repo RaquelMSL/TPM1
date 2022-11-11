@@ -16,7 +16,7 @@ typedef struct{
 
 typedef struct{
 int doc;
-int nro_doc;
+long int nro_doc;
 long long num_tramite;
 
 }documento;
@@ -45,73 +45,86 @@ fecha fecha_ini;
 fecha fecha_fin;
 }prenda;
 
-void IngresarDoc (documento *D,char docx[],int nro_docx,long long num_tramitex ){
+void IngresarDoc (documento *D,int docx,int nro_docx,long long num_tramitex ){
     (*D).doc = docx;
     (*D).nro_doc = nro_docx;
     (*D).num_tramite = num_tramitex;
 }
-void Ingresar_cliente  ( cliente *C, char NyApx, long long Cuit, float ing_Mx,documento docx   ){
+void Ingresar_cliente  ( cliente *C, char NyApx, long long Cuit, float ing_Mx,int docx,int nro_docx,long long num_tramitex   ){
     (*C).NyAp = NyApx;
     (*C).cuit = Cuit;
     (*C).ing_Men = ing_Mx;
-    (*C).doc = docx;
+    IngresarDoc(&(*c).C.doc,tipod,nrodoc,nrotramite );
 }
-
-void Ingresar_garante  ( garante *G,float ing_M_garantex, documento doc_garantex[]){
-    (*G).ing_M_garante = ing_M_garantex ;
-    (*G).doc_garante = doc_garantex;
-
+void Ingresar_garante  ( garante *G,float ing_M_garantex, int docx,int nro_docx,long long num_tramitex){
+    (*G).ing_M_garante = ing_M_garantex ;    
+    IngresarDoc(&(*G).doc,tipod,nrodoc,nrotramite);
 }
-
 void Ingresar_Vehiculo  ( vehiculo *V, char patx[],float valor_tasacionx, char marcax[],char modelox[] ){
-    (*V).part = patx;
+    strcpy((*V).pat,patx);
+    //(*V).pat = patx;    
     (*V).valor_tasacion = valor_tasacionx;
     (*V).marca = marcax;
     (*V).modelo = modelox;
-
 }
-
 void Ingresar_Fecha  ( fecha *f, int diax, int mesx, int aniox ){
     (*f).dia = diax;
     (*f).mes = mesx;
     (*f).anio = aniox;
-
 }
-
-void Ingresar_Prenda ( prenda *P,float capital_entregadox,float interes_mensualx,int cantidad_cuotasx,int cantidad_cuotas_pagasx, cliente cx, vehiculo vx, fecha fecha_inix, fecha fecha_finx, garante gx ) {
+float calcInteres(float capiE,float vTotal){
+float porcentaje=(100*capiE)/vTotal;
+if(porcentaje>=0.3)
+{
+  return 9.5;      
+}
+else{
+    if(porcentaje>=0.2){
+        return 12.3;
+    }
+    else{
+        if(porcentaje>=0.1){
+            return 21.8;
+        }
+        else{ return 50;}
+    }
+}
+}
+void Ingresar_Prenda ( prenda *P,float capital_entregadox,int cantidad_cuotasx,int cantidad_cuotas_pagasx, cliente cx, vehiculo vx, fecha fecha_inix, fecha fecha_finx, garante gx ) {
     (*P).capital_entregado = capital_entregadox;
-    (*P).intereses_mensual=intereses_mensualx;
+    (*P).intereses_mensual=calcInteres(capital_entregadox,vx.valor_tasacion);
+    //(*P).intereses_mensual=intereses_mensualx; vean
     (*P).catidad_cuotas = catidad_cuotasx;
     (*P).cantidad_cuotas_pagas = cantidad_cuotas_pagasx;
     (*P).C = cx;
     (*P).V=  vx;
-    (*P).fecha_ini =fecha fecha_inix;
-    (*P).fecha_fin = fecha fecha_finx;
+    (*P).fecha_ini= fecha_inix;
+    (*P).fecha_fin= fecha_finx;
     (*P).G = gx;
 }
 
 int recMac (vehiculo p){
     return (p.marca);
 }
-int vehiculo recPat (vehiculo p){
+char* recPat (vehiculo p){
     return (p.pat);
 }
-float vehiculo recValT (vehiculo p){
+float recVal_Tasa (vehiculo p){
     return (p.valor_tasacion);
 }
-int vehiculo rectMod (vehiculo p){
+int rectMod (vehiculo p){
     return (p.modelo);
 }
-int prenda recCant_cuotas (prenda p){
+int recCant_cuotas (prenda p){
     return (p.cantidad_cuotas);
 }
-int prenda recCant_cuotasPagas (prenda p){
+int recCant_cuotasPagas (prenda p){
     return (p.cantidad_cuotas_pagas);
 }
-float prenda recCap_entregado (prenda p){
+float recCap_entregado (prenda p){
     return (p.capital_entregado);
 }
-float  prenda recInteres (prenda p){
+float recInteres (prenda p){
     return (p.interes_mensual);
 }
 fecha   recFech_inicio (prenda p){
@@ -123,7 +136,7 @@ fecha recFech_fin (prenda p){
 char* recNyApe (cliente p){
     return (p.NyAp);
 }
-int recCuil (cliente p){
+long long  recCuil (cliente p){
     return (p.cuit);
 }
 float ingMensual_cliente (cliente p){
@@ -132,10 +145,10 @@ float ingMensual_cliente (cliente p){
 int recTipo_doc (documento p){
     return (p.doc);
 }
-int recNum_doc (documento p){
+long int recNum_doc (documento p){
     return (p.nro_doc);
 }
-int recNum_tramite (documento p){
+long long recNum_tramite (documento p){
     return (p.num_tramite);
 }
 #endif // CLIENTE_PRENDARIO_H_INCLUDED

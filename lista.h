@@ -21,7 +21,7 @@ void init (lista *L){
 (*L).aux=NULL;
 }
 
-int isemty (lista L){
+int isempty (lista L){
 return(if L.cab ==NULL)}
 
 int copy (lista *L){

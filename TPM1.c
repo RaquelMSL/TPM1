@@ -5,7 +5,8 @@
 #include <lista.h>
 
 
-void cargar_clientes(prenda p,lista *L, ? )
+void cargar_clientes(prenda *p,lista *L, ? )
+int buscar_por_doc (prenda *p,lista *L,n_tramite,numero,?)
 
 
 int main()
@@ -134,3 +135,19 @@ Ingresar_Prenda(*p,capital_entregado,cantidad_cuotas,cantidad_cuotas_pagas,cx,vx
 //insertamos un nuevo nodo en la lista
 insert (*L,*p);
 }
+
+int buscar_por_doc(prenda *p,lista *L,long long n_tramite,long numero,?) {
+    int r;
+    reset(*L);
+    r=search(*L,n_tramite,numero);
+    return(r);
+}
+
+void mostrar_vehiculo_y_prenda(prenda *p,lista *L,int marca,int modelo,?){
+    int r;
+    reset(*L)
+    r=search(*L,n_tramite,numero);
+    if(r>0){ 
+       printf("El nombre del cliente es %s \n el numero de documento del cliente es %ld \n el tipo de documento es %s \n el numero de tramite del cliente es %lld    
+    
+    

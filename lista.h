@@ -31,7 +31,7 @@ void insert (lista *L, prenda elemento){
 nodo *nuevo;
 nuevo=(nodo*)malloc(sizeof(nodo));
 nuevo.vipd=elemento;
-if ( isemty(L) )// isempty
+if ( isempty(L) )// isempty
     {
     (*L).cab=nuevo;
     nuevo.puntero=(*L).ultimo;
@@ -56,9 +56,9 @@ void forward (lista *L){
 }
 
 void supress (lista *L){
-
-}
-
+    {
+void Isoos(){
+    
 
 
 

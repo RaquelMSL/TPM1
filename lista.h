@@ -33,14 +33,14 @@ nuevo=(nodo*)malloc(sizeof(nodo));
 nuevo.vipd=elemento;
 if ( isempty(L) )// isempty
     {
-    (*L).cab=nuevo;
+    (*L).cabeza=nuevo;
     nuevo.puntero=(*L).ultimo;
-    (*L).cursor=(*L).cab;
-    (*L).cursor_aux=(*L).cab; }
+    (*L).ultimo=(*L).cabeza;
+    (*L).aux=(*L).cabeza; }
 else {
         (*L).aux=nuevo;
         nuevo.puntero=(*L).ultimo;
-        (*L).cursor=nuevo;
+        (*L).ultimo=nuevo;
 }
 
 }

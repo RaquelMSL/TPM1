@@ -27,7 +27,8 @@ long long int n_tramite;
 cliente cx;
 vehiculo vx;
 garante gx;
-
+    
+    
 printf("\n Inserte el numero de la opción que indique su tipo de documento \n 1)Libreta Civica \n 2) Libreta de Enrolamiento \n 3)DNI \n 4)Cedula (dni extranjero) \n ");
 scanf("%d",&tipo_doc);getchar();
 while(tipo_doc < 1 || tipo_doc > 4){
@@ -107,7 +108,7 @@ vx.valor_tasacion=valor_tasacion;
 vx.marca=marca;
 vx.modelo=modelo;
 //fin de la asignacion del vehiculo
-
+//solicitamos datos para la prenda
 printf("Ingrese el valor del capital entregado \n");
 scanf("%f",&capital_entregado);getchar();
 printf("Ingrese el interes mensual de la prenda \n");
@@ -128,8 +129,8 @@ printf("Ingrese el mes del final de la prenda \n");
 scanf("%d",&fecha_fin.mes);getchar();
 printf("Ingrese el año del final de la prenda \n");
 scanf("%d",&fecha_fin.anio);getchar();
+//Terminamos de solicitar datos para la prenda y llamamos la funcion de cliente_prendario.h
 Ingresar_Prenda(*p,capital_entregado,cantidad_cuotas,cantidad_cuotas_pagas,cx,vx,ini,fin,gx);
-  
-
-
+//insertamos un nuevo nodo en la lista
+insert (*L,*p);
 }

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <cliente_prendario.h>
-#include <lista.h>
+#include "cliente_prendario.h"
+#include "lista.h"
 
 
 void cargar_clientes(prenda *p,lista *L, ? )

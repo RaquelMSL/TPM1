@@ -145,9 +145,20 @@ int buscar_por_doc(prenda *p,lista *L,long long n_tramite,long numero,?) {
 
 void mostrar_vehiculo_y_prenda(prenda *p,lista *L,int marca,int modelo,?){
     int r;
+    char mar_x[35],mod_x[35];
+    switch (marca){
+        case 1: strcpy(mar_x,"Ford");
+        case 2: strcpy(mar_x,"Fiat");
+     Default: strcpy(mar_x,"Chevrolet");
+   if(marca==1){
+     switch(modelo){
+        case 1: strcpy(mod_x,"Focus RS");
+        case 2: strcpy(mod_x,"GT");
+        default: strcpy(mod_x,"Mustang");}
+      else (marca==2){
+          switch(modelo)
     reset(*L)
     r=search(*L,n_tramite,numero);
     if(r>0){ 
-       printf("El nombre del cliente es %s \n el numero de documento del cliente es %ld \n el tipo de documento es %s \n el numero de tramite del cliente es %lld    
-    
+       printf("El nombre del cliente es %s \n el numero de documento del cliente es %ld \n el tipo de documento es %s \n el numero de tramite del cliente es %lld",p.C.NyAp,p.C.doc.nro_doc,
     

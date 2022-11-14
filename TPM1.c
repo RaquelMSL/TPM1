@@ -10,8 +10,18 @@ int buscar_por_doc (prenda *p,lista *L,n_tramite,numero,?)
 
 
 int main()
-{
-
+{ lista *L;
+ prenda *p;
+ init(&L);
+ if (!isfull==1){
+     insert(&L,&p);
+ }
+ else {printf("Error, te la mandaste papaaaa");}
+ while(!Isoss==1){
+     forward(&L);
+     ...
+      
+ 
 
 
     return 0;

@@ -121,6 +121,9 @@ void setIngreso_Mensual_Garante(prenda *p,float ingX){
 vehiculo recAuto(prenda p){
     return p.V;
 }
+void modificaMac(prenda *p,int nx){
+    (*p).V.marca=nx;
+}
 int recMac (vehiculo p){
     return (p.marca);
 }

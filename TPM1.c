@@ -4,48 +4,118 @@
 #include "cliente_prendario.h"
 #include "lista.h"
 
-
-void cargar_clientes(prenda *p,lista *L, ? )
-int buscar_por_doc (prenda *p,lista *L,n_tramite,numero,?)
+vehiculo cargar_auto();
+garante cargarGarante();
+cliente cargarCliente();
+void cargar_prenda(lista *L);
+void cargar_Clientes(lista *L);
+//int buscar_por_doc (prenda *p,lista *L,n_tramite,numero,?);
 
 
 int main()
 { lista *L;
- prenda *p;
  init(&L);
- if (!isfull==1){
-     insert(&L,&p);
- }
- else {printf("Error, te la mandaste papaaaa");}
- while(!Isoss==1){
-     forward(&L);
-     ...
-      
- 
+int op;
+
+ do{
+    printf("1:Leer un cliente_prendario 2:Leer N clientes_prendrios 3:Buscar vehiculos y prendas de un cliente\n");
+    printf("4:Mostrar todas las prendas 5:Modificar datos garantes  6:Modificar cuotas pagadas\n");
+
+    printf("seleccione una opcion:");
+    scanf("%d",&op);
+    switch(op)
+    {
+    case 1:cargar_prenda(&L);
+        break;
+    case 2:cargar_Clientes(&L);
+        break;
+    case 3:
+        break;
+    case 4:
+        break;
+    case 5:
+        break;
+    case 6:
+        break;
+    }
+
+ }while(op!=5);
+
+
 
 
     return 0;
 }
 
-void cargar_clientes(prenda *p,lista *L, ? )
+vehiculo cargar_auto()
 {
-int tipo_doc, cant_cuotas,cant_cuptas_pagas,modelo,marca,dia_ini,mes_ini,anio_ini,cant,numero;
-float interes_m,ingreso_m, ingreso_m_gar,valor_tasacion,cap_entregado;
-char patente [35],nyap [35];
-fecha ini,fin;
-long int cuit;
-long long int n_tramite;
-cliente cx;
+    int modelo,marca;
+float valor_tasacion;
+char patente [35];
 vehiculo vx;
-garante gx;
-    
-    
-printf("\n Inserte el numero de la opción que indique su tipo de documento \n 1)Libreta Civica \n 2) Libreta de Enrolamiento \n 3)DNI \n 4)Cedula (dni extranjero) \n ");
-scanf("%d",&tipo_doc);getchar();
-while(tipo_doc < 1 || tipo_doc > 4){
-    printf(" \n Ha ingresado un numero erróneo. Inserte el numero de la opción que indique su tipo de documento \n 1)Libreta Civica \n 2) Libreta de Enrolamiento \n 3)DNI \n 4)Cedula (dni extranjero) \n  ");
-    scanf("%d",&tipo_doc);getchar();
+
+    printf("Ingrese la patente del vehiculo\n");
+gets(patente);
+do{
+    printf("Ingrese la opción de la marca a utilizar \n 1)Ford \n 2)Fiat \n 3)Chevrolet\n");
+    scanf("%d",&marca);getchar();
+}while(marca < 1 || marca > 3);
+switch(marca){
+    case 1: do{
+            printf("Ingrese la opción del modelo \n 1)Focus RS \n 2)GT \n 3)Mustang\n");
+            scanf("%d",&modelo);getchar();
+            }while(modelo <1 || modelo >3);
+    case 2: do{
+            printf("Ingrese la opción del modelo \n 1)Focus RS \n 2) GT \n 3)Mustang\n");
+            scanf("%d",&modelo);getchar();
+            }while(modelo <1 || modelo >3);
+    case 3:do{
+            printf("Ingrese la opción del modelo \n 1)Camaro SS \n GT \n Mustang\n");
+            scanf("%d",&modelo);getchar();
+            }while(modelo <1 || modelo >3);
+
 }
+printf("Ingrese el valor de tasacion \n");
+scanf("%d",&valor_tasacion);getchar();
+Ingresar_Vehiculo(&vx,patente,valor_tasacion,marca,modelo);
+return vx;
+}
+
+garante cargarGarante()
+{
+int tipo_doc;
+float ingreso_m;
+long int numero;
+long long int n_tramite;
+garante gx;
+
+do{
+    printf("\nInserte el numero de la opción que indique su tipo de documento  1)Libreta Civica  2) Libreta de Enrolamiento  3)DNI  4)Cedula (dni extranjero) \n  ");
+    scanf("%d",&tipo_doc);getchar();
+}while(tipo_doc < 1 || tipo_doc > 4);
+printf("Ingrese el numero de tramite del documento \n");
+scanf("%lld",&n_tramite);getchar();
+printf("Ingrese el numero del documento \n");
+scanf("%d",&numero); getchar();
+printf("Ingrese el monto del ingreso mensual del cliente \n");
+scanf("%f",&ingreso_m);getchar();
+Ingresar_garante(&gx,ingreso_m,tipo_doc,numero,n_tramite);
+return gx;
+}
+
+cliente cargarCliente()
+{
+int tipo_doc;
+float ingreso_m;
+char nyap [35];
+long int numero;
+long long int n_tramite,cuit;
+cliente cx;
+
+do{
+    printf("\nInserte el numero de la opción que indique su tipo de documento  1)Libreta Civica  2) Libreta de Enrolamiento  3)DNI  4)Cedula (dni extranjero) \n  ");
+    scanf("%d",&tipo_doc);getchar();
+}while(tipo_doc < 1 || tipo_doc > 4);
 printf("Ingrese el numero de tramite del documento \n");
 scanf("%lld",&n_tramite);getchar();
 printf("Ingrese el numero del documento \n");
@@ -55,104 +125,75 @@ gets(nyap);
 printf("Ingrese el monto del ingreso mensual del cliente \n");
 scanf("%f",&ingreso_m);getchar();
 printf("Ingrese el cuit del cliente \n");
-scanf("%ld",&cuit);getchar();
-//asignamos los datos a una estructura auxiliar del tipo cliente para reutilizar las variables
-cx.doc.doc=tipo_doc;
-cx.doc.doc.nro_doc=numero;
-cx.doc.doc.num_tramite=n_tramite;
-strcpy(cx.NyAp,nyap);
-cx.ing_Men=ingreso_m;
-//fin de la asignacion a cliente
-printf("Ingrese el  ingreso mensual del garante \n");
-scanf("%f",&ingreso_m_gar);getchar();
-printf("Ingrese el numero de tramite del documento del garante \n");
-scanf("%lld",&n_tramite);getchar();
-printf("\n Inserte el numero de la opción que indique el tipo de documento del garante \n 1)Libreta Civica \n 2) Libreta de Enrolamiento \n 3)DNI \n 4)Cedula (dni extranjero) \n ");
-scanf("%d",&tipo_doc);getchar();
-while(tipo_doc < 1 || tipo_doc > 4){
-    printf(" \n Ha ingresado un numero erróneo. Inserte el numero de la opción que indique su tipo de documento \n 1)Libreta Civica \n 2) Libreta de Enrolamiento \n 3)DNI \n 4)Cedula (dni extranjero) \n  ");
-    scanf("%d",&tipo_doc);getchar();
+scanf("%lld",&cuit);getchar();
+Ingresar_cliente(&cx,nyap,cuit,ingreso_m,tipo_doc,numero,n_tramite);
+return cx;
 }
-printf("Ingrese el numero del documento del garante");
-scanf("%d",&numero); getchar();
-//Asignamos datos a un garante auxiliar
-gx.ing_M_garante=ingreso_m_gar;
-gx.doc_garante.doc=tipo_doc;
-gx.doc_garante.nro_doc=numero;
-gx.doc_garante.num_tramite=n_tramite;
-//fin de la asginacion a garante
-printf("Ingrese la patente del vehiculo\n");
-gets(patente);
-printf("Ingrese la opción de la marca a utilizar \n 1)Ford \n 2)Fiat \n 3)Chevrolet\n");
-scanf("%d",&marca);getchar();
-while(marca < 1 || marca > 3){
-    printf("Error. Ingrese la opción de la marca a utilizar \n 1)Ford \n 2)Fiat \n 3)Chevrolet\n");
-    scanf("%d",&marca);getchar();
 
-}
-switch(marca){
-    case 1: printf("Ingrese la opción del modelo \n 1)Focus RS \n 2)GT \n 3)Mustang\n");
-            scanf("%d",&modelo);getchar();
-            while(modelo <1 || modelo >3){
-                printf("Error. Ingrese la opción del modelo \n 1)Focus RS \n 2)GT \n 3)Mustang\n");
-            scanf("%d",&modelo);getchar();
-            }
-    case 2: printf("Ingrese la opción del modelo \n 1)Uno \n 2)Punto Evo Sport \n 3) Brava \n");
-             scanf("%d",&modelo);getchar();
-            while(modelo <1 || modelo >3){
-                printf("Error. Ingrese la opción del modelo \n 1)Focus RS \n 2) GT \n 3)Mustang\n");
-            scanf("%d",&modelo);getchar();
-            }
-    default:printf("Ingrese la opción del modelo \n 1)Camaro SS \n 2)Corvette Z06 \n 3)Brava \n");
-             scanf("%d",&modelo);getchar();
-            while(modelo <1 || modelo >3){
-                printf("Error. Ingrese la opción del modelo \n 1)Camaro SS \n GT \n Mustang\n");
-            scanf("%d",&modelo);getchar();
-            }
+void cargar_prenda(lista *L)
+{
+int cant_cuotas,cant_cuotas_pagas,diax,mesx,aniox;
+float interes_m,cap_entregado;
+fecha ini,fin;
+cliente cx;
+vehiculo vx;
+garante gx;
+prenda px;
 
-}
-printf("Ingrese el valor de tasacion \n");
-scanf("%d",&valor_tasacion);getchar();
-//asignamos valores a vehiculo auxiliar
-strcpy(vx.pat,patente);
-vx.valor_tasacion=valor_tasacion;
-vx.marca=marca;
-vx.modelo=modelo;
-//fin de la asignacion del vehiculo
+cx=cargarCliente();
+
+gx=cargarGarante();
+
+vx=cargar_auto();
 //solicitamos datos para la prenda
 printf("Ingrese el valor del capital entregado \n");
-scanf("%f",&capital_entregado);getchar();
+scanf("%f",&cap_entregado);getchar();
 printf("Ingrese el interes mensual de la prenda \n");
-scanf("%f",&interes_mensual);getchar();
+scanf("%f",&interes_m);getchar();
 printf("Ingrese la cantidad de cuotas \n");
-scanf("%d",&cantidad_cuotas);getchar();
-printf("Ingrese la cantidad de cuotas pagadas \n");
-scanf("%d",&cantidad_cuotas_pagas);getchar();
+scanf("%d",&cant_cuotas);getchar();
 printf("Ingrese el dia de inicio \n");
-scanf("%d",&fecha_ini.dia);getchar();
+scanf("%d",&diax);getchar();
 printf("Ingrese el mes de inicio \n");
-scanf("d%",&fecha_ini.mes);getchar();
+scanf("d%",&mesx);getchar();
 printf("Ingrese el año de inicio \n");
-scanf("&d",&fecha_ini.anio);getchar();
-printf("Ingrese el dia del final de la prenda \n");
-scanf("%d",&fecha_fin.dia);getchar();
-printf("Ingrese el mes del final de la prenda \n");
-scanf("%d",&fecha_fin.mes);getchar();
-printf("Ingrese el año del final de la prenda \n");
-scanf("%d",&fecha_fin.anio);getchar();
+scanf("&d",&aniox);getchar();
+Ingresar_Fecha(&ini,diax,mesx,aniox);
+mesx+=cant_cuotas;
+do{
+mesx-=12;
+aniox+=1;
+}while(mesx>12);
+Ingresar_Fecha(&fin,diax,mesx,aniox);
+if(aniox<2022)
+{
+cant_cuotas_pagas=cant_cuotas;
+}
+else
+	{
+	aniox=2022-recAnio(ini);
+	mesx=11-recMes(ini);
+	cant_cuotas_pagas=(aniox*12)+mesx;
+	}
 //Terminamos de solicitar datos para la prenda y llamamos la funcion de cliente_prendario.h
-Ingresar_Prenda(*p,capital_entregado,cantidad_cuotas,cantidad_cuotas_pagas,cx,vx,ini,fin,gx);
+Ingresar_Prenda(&px,cap_entregado,cant_cuotas,cant_cuotas_pagas,cx,vx,ini,fin,gx);
 //insertamos un nuevo nodo en la lista
-insert (*L,*p);
+insert(&L,px);
 }
 
-int buscar_por_doc(prenda *p,lista *L,long long n_tramite,long numero,?) {
-    int r;
-    reset(*L);
-    r=search(*L,n_tramite,numero);
-    return(r);
+void cargar_Clientes(lista *lx)
+{int n,i;
+    do{
+        printf("lea la cantidad de cliente_prenda a ingresar");
+        scanf("%d",&n);
+    }while(n<0);
+    for(i=0;i<n;i++)
+        cargar_prenda(&lx);
 }
 
+prenda buscaNroyTramite()
+
+/*
 void mostrar_vehiculo_y_prenda(prenda *p,lista *L,int marca,int modelo,?){
     int r;
     char mar_x[35],mod_x[35];
@@ -169,6 +210,6 @@ void mostrar_vehiculo_y_prenda(prenda *p,lista *L,int marca,int modelo,?){
           switch(modelo)
     reset(*L)
     r=search(*L,n_tramite,numero);
-    if(r>0){ 
-       printf("El nombre del cliente es %s \n el numero de documento del cliente es %ld \n el tipo de documento es %s \n el numero de tramite del cliente es %lld",p.C.NyAp,p.C.doc.nro_doc,
-    
+    if(r>0){
+       printf("El nombre del cliente es %s \n el numero de documento del cliente es %ld \n el tipo de documento es %s \n el numero de tramite del cliente es %lld",p.C.NyAp,p.C.doc.nro_doc);
+*/

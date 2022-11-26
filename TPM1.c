@@ -4,6 +4,10 @@
 #include "cliente_prendario.h"
 #include "lista.h"
 
+const char *MARCAS[]={"Ford\0","Fiat\0","Chevrolet\0"};
+const char *MODELOS[3][3]={{"Focus\0","RS GT\0","Mustang\0"},{"Focus\0","RS GT\0","Mustang\0"},{"Focus\0","RS GT\0","Mustang\0"}};
+const char *TIPODOC[]={"DNI","PAS","CF","CIPE","LC","LE"};
+
 vehiculo cargar_auto();
 garante cargarGarante();
 cliente cargarCliente();
@@ -29,13 +33,17 @@ int op;
         break;
     case 2:cargar_Clientes(&L);
         break;
-    case 3:
+    case 3://Inciso4();
         break;
-    case 4:
+    case 4://Inciso5();
         break;
-    case 5:
+    case 5:printf("lea la cantidad de garante a modificar");
+            //scanf("%d",&n);
+            //for(i=0;i<n;i++){
+            //printf("lea nro y nrotramite");
+            //Inciso6(L,aux_nro,aux_nrotramite);}
         break;
-    case 6:
+    case 6://Inciso7
         break;
     }
 
@@ -57,20 +65,20 @@ vehiculo vx;
     printf("Ingrese la patente del vehiculo\n");
 gets(patente);
 do{
-    printf("Ingrese la opción de la marca a utilizar \n 1)Ford \n 2)Fiat \n 3)Chevrolet\n");
+    printf("Ingrese la opción de la marca a utilizar 1)Ford 2)Fiat 3)Chevrolet\n");
     scanf("%d",&marca);getchar();
 }while(marca < 1 || marca > 3);
 switch(marca){
     case 1: do{
-            printf("Ingrese la opción del modelo \n 1)Focus RS \n 2)GT \n 3)Mustang\n");
+            printf("Ingrese la opción del modelo 1)Focus RS 2)GT 3)Mustang\n");
             scanf("%d",&modelo);getchar();
             }while(modelo <1 || modelo >3);
     case 2: do{
-            printf("Ingrese la opción del modelo \n 1)Focus RS \n 2) GT \n 3)Mustang\n");
+            printf("Ingrese la opción del modelo 1)Focus RS 2) GT 3)Mustang\n");
             scanf("%d",&modelo);getchar();
             }while(modelo <1 || modelo >3);
     case 3:do{
-            printf("Ingrese la opción del modelo \n 1)Camaro SS \n GT \n Mustang\n");
+            printf("Ingrese la opción del modelo 1)Camaro SS GT Mustang\n");
             scanf("%d",&modelo);getchar();
             }while(modelo <1 || modelo >3);
 
@@ -139,17 +147,15 @@ cliente cx;
 vehiculo vx;
 garante gx;
 prenda px;
-
+iniGarante(&gx);
 cx=cargarCliente();
-
-gx=cargarGarante();
-
+if(recIngMensual_C<100000){
+gx=cargarGarante();}
 vx=cargar_auto();
 //solicitamos datos para la prenda
 printf("Ingrese el valor del capital entregado \n");
 scanf("%f",&cap_entregado);getchar();
-printf("Ingrese el interes mensual de la prenda \n");
-scanf("%f",&interes_m);getchar();
+interes_m=calcInteres(cap_entregado,recVal_Tasa(vx));
 printf("Ingrese la cantidad de cuotas \n");
 scanf("%d",&cant_cuotas);getchar();
 printf("Ingrese el dia de inicio \n");
@@ -191,10 +197,11 @@ void cargar_Clientes(lista *lx)
         cargar_prenda(&lx);
 }
 
-prenda buscaNroyTramite(lista lx,int nroX,int nro_TrX)
+prenda buscaNroyTramite(lista lx,long int nroX,long long int nro_TrX,int *flagX)
 {
-    if(isempty(lx)==1)
-        printf("error");
+    if(isempty(lx)==1){
+        (*flagX)=-1;
+        }
     else{
         reset(&lx);
         prenda aux=copy(lx);
@@ -203,32 +210,134 @@ prenda buscaNroyTramite(lista lx,int nroX,int nro_TrX)
             forward(&lx);
             aux=copy(lx);
         }
-        if(Isoos(lx)==1) printf("error");
+        if(Isoos(lx)==1) {(*flagX)=-1;}
         else{
             return copy(lx);
         }
         }
     }
 
+void Inciso4(lista lx,long int nroX,long long int nro_TrX)
+{prenda aux;int flag=1;
+    aux=buscaNroyTramite(lx,nroX,nro_TrX,&flag);
+    if(flag!=1) printf("error\n");
+    else{
+        printf("datos de vehiculo:\n patente:%s valor tasacion:%0.2f marca:%s modelo:%s\n\n",recPat(recAuto(aux)),
+               recVal_Tasa(recAuto(aux)),MARCAS[recMac(recAuto(aux))-1],MODELOS[recMac(recAuto(aux))-1][recMod(recAuto(aux))-1]);
+        printf("datos de prenda:\n cantidad de cuotas:%d cantidad de cuotas pagadas:%d\n");
+        printf("interes mensual:%0.2f capital entregado:%0.2f\n",recInteres(aux),recCap_entregado(aux));
+        printf("fecha inicio: %d/%d/%d",recDia(recFech_inicio(aux)),recMes(recFech_inicio(aux)),recAnio(recFech_inicio(aux)));
+        printf("fecha fin: %d/%d/%d",recDia(recFech_fin(aux)),recMes(recFech_fin(aux)),recAnio(recFech_fin(aux)));
+    }
+}
 
+void Inciso5(lista lx)
+{
+    if(isempty(lx)==1) printf("error");
+    else{
+        reset(&lx);
+        while(Isoos(lx)!=1)
+            {
+                printf("datos del titular:\n NyAP:%s Tipo de documento:%s numero de documento:&d",
+                       recNyApe(rec_Cliente(copy(lx))),
+                       TIPODOC[recTipo_doc(recDoc_Cliente(copy(lx)))-1],recNum_doc(recDoc_Cliente(copy(lx))));
+                printf("datos de vehiculo:\n patente:%s valor tasacion:%0.2f marca:%s modelo:%s\n\n",recPat(recAuto(copy(lx))),
+                       recVal_Tasa(recAuto(copy(lx))),MARCAS[recMac(recAuto(copy(lx)))-1],
+                       MODELOS[recMac(recAuto(copy(lx)))-1][recMod(recAuto(copy(lx)))-1]);
+                forward(&lx);
+            }
+    }
+}
 
-/*
-void mostrar_vehiculo_y_prenda(prenda *p,lista *L,int marca,int modelo,?){
-    int r;
-    char mar_x[35],mod_x[35];
-    switch (marca){
-        case 1: strcpy(mar_x,"Ford");
-        case 2: strcpy(mar_x,"Fiat");
-     Default: strcpy(mar_x,"Chevrolet");
-   if(marca==1){
-     switch(modelo){
-        case 1: strcpy(mod_x,"Focus RS");
-        case 2: strcpy(mod_x,"GT");
-        default: strcpy(mod_x,"Mustang");}
-      else (marca==2){
-          switch(modelo)
-    reset(*L)
-    r=search(*L,n_tramite,numero);
-    if(r>0){
-       printf("El nombre del cliente es %s \n el numero de documento del cliente es %ld \n el tipo de documento es %s \n el numero de tramite del cliente es %lld",p.C.NyAp,p.C.doc.nro_doc);
-*/
+void Inciso6(lista lx,long int nroX,long long int nro_TrX)
+{prenda aux;float ingX;int flag=1;
+    aux=buscaNroyTramite(lx,nroX,nro_TrX,&flag);
+    if(flag!=1) printf("error\n");
+    else{
+        printf("lea nuevo ingreso mensual de garante");
+        scanf("%f",&ingX);
+        setIngreso_Mensual_Garante(&aux,ingX);
+    }
+
+}
+
+void Inciso7(lista lx,long int nroX,long long int nro_TrX){
+    prenda aux;int flag=1,m,nx,mesx;
+    aux=buscaNroyTramite(lx,nroX,nro_TrX,&flag);
+    if(flag!=1) printf("error\n");
+    else{
+        m=recCant_cuotas(aux)-recCant_cuotasPagas(aux);
+        do{
+            printf("lea cantidad de cuotas a adelantar maximo %d",m);
+            scanf("%d",&nx);
+        }while(nx<0 && nx>m);
+        modificar_cuotasPagas(&aux,nx);
+        mesx=recMes(recFech_fin(aux))-nx;
+        if(mesx<1){
+            mesx+=12;
+            restAnio(&aux);
+        }
+        modificaMesFIN(&aux,mesx);
+        }
+}
+
+void Inciso16(lista lx)
+{
+    if(isempty(lx)==1) printf("error");
+    else{
+        reset(&lx);
+        while(Isoos(lx)!=1)
+            {
+                if(recIngMensual_C(copy(lx))<0){
+                printf("datos del titular:\n NyAP:%s Tipo de documento:%s numero de documento:&d",
+                       recNyApe(rec_Cliente(copy(lx))),
+                       TIPODOC[recTipo_doc(recDoc_Cliente(copy(lx)))-1],recNum_doc(recDoc_Cliente(copy(lx))));
+                printf("datos de vehiculo:\n patente:%s valor tasacion:%0.2f marca:%s modelo:%s\n\n",recPat(recAuto(copy(lx))),
+                       recVal_Tasa(recAuto(copy(lx))),MARCAS[recMac(recAuto(copy(lx)))-1],
+                       MODELOS[recMac(recAuto(copy(lx)))-1][recMod(recAuto(copy(lx)))-1]);
+                forward(&lx);
+            }
+            }
+    }
+}
+
+int contarGarantes(lista lx){//!antes de invocar usar isempty y reset
+    if(Isoos(lx)==1){
+            if(recIngMensual_C(copy(lx))>0) return 1;
+            else{return 0;}
+            }
+    else{
+        if(recIngMensual_C(copy(lx))>0){
+            forward(&lx);
+            return 1+contarGarantes(lx);
+        }
+        else{
+            forward(&lx);
+            return 0+contarGarantes(lx);}
+    }
+}
+
+void Inciso18(lista lx,long int nroX,long long int nro_TrX){
+    prenda aux;int flag=1;
+    aux=buscaNroyTramite(lx,nroX,nro_TrX,&flag);
+    if(flag!=1) printf("error\n");
+    else{
+        printf("nro_cliente:%ld monto total:%0.2f",nroX,calcMontoTotal(aux));
+    }
+}
+
+void Inciso14(lista lx,int *sx){//!antes de invocar usar isempty y reset
+    if(Isoos(lx)==1 && vigente(copy(lx))==0)
+    (*sx)=calcMontoTotal(copy(lx));
+    else{
+        if(vigente(copy(lx))==0){
+            (*sx)=calcMontoTotal(copy(lx));
+            forward(&lx);
+            Inciso14(lx,sx);
+        }
+        else{
+            forward(&lx);
+            Inciso14(lx,sx);
+        }
+    }
+}

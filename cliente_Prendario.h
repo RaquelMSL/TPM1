@@ -10,8 +10,8 @@ int anio;
 typedef struct{
     char pat[20];
     float valor_tasacion;
-    char marca[20];
-    char modelo[30];
+    int marca;
+    int modelo;
 }vehiculo;
 
 typedef struct{
@@ -51,18 +51,18 @@ void IngresarDoc (documento *D,int docx,int nro_docx,long long num_tramitex ){
     (*D).num_tramite = num_tramitex;
 }
 void Ingresar_cliente  ( cliente *C, char NyApx, long long Cuit, float ing_Mx,int docx,int nro_docx,long long num_tramitex   ){
-    (*C).NyAp = NyApx;
+    strcpy((*C).NyAp,NyApx);
     (*C).cuit = Cuit;
     (*C).ing_Men = ing_Mx;
-    IngresarDoc(&(*c).C.doc,tipod,nrodoc,nrotramite );
+    IngresarDoc(&C->doc,docx,nro_docx,num_tramitex );
 }
 void Ingresar_garante  ( garante *G,float ing_M_garantex, int docx,int nro_docx,long long num_tramitex){
-    (*G).ing_M_garante = ing_M_garantex ;    
-    IngresarDoc(&(*G).doc,tipod,nrodoc,nrotramite);
+    (*G).ing_M_garante = ing_M_garantex ;
+    IngresarDoc(&G->doc_garante,docx,nro_docx,num_tramitex);
 }
-void Ingresar_Vehiculo  ( vehiculo *V, char patx[],float valor_tasacionx, char marcax[],char modelox[] ){
+void Ingresar_Vehiculo  ( vehiculo *V, char patx[],float valor_tasacionx, int marcax,int modelox){
     strcpy((*V).pat,patx);
-    //(*V).pat = patx;    
+    //(*V).pat = patx;
     (*V).valor_tasacion = valor_tasacionx;
     (*V).marca = marcax;
     (*V).modelo = modelox;
@@ -76,7 +76,7 @@ float calcInteres(float capiE,float vTotal){
 float porcentaje=(100*capiE)/vTotal;
 if(porcentaje>=0.3)
 {
-  return 9.5;      
+  return 9.5;
 }
 else{
     if(porcentaje>=0.2){
@@ -92,9 +92,9 @@ else{
 }
 void Ingresar_Prenda ( prenda *P,float capital_entregadox,int cantidad_cuotasx,int cantidad_cuotas_pagasx, cliente cx, vehiculo vx, fecha fecha_inix, fecha fecha_finx, garante gx ) {
     (*P).capital_entregado = capital_entregadox;
-    (*P).intereses_mensual=calcInteres(capital_entregadox,vx.valor_tasacion);
+    (*P).interes_mensual=calcInteres(capital_entregadox,vx.valor_tasacion);
     //(*P).intereses_mensual=intereses_mensualx; vean
-    (*P).catidad_cuotas = catidad_cuotasx;
+    (*P).cantidad_cuotas = cantidad_cuotasx;
     (*P).cantidad_cuotas_pagas = cantidad_cuotas_pagasx;
     (*P).C = cx;
     (*P).V=  vx;
@@ -129,6 +129,12 @@ float recInteres (prenda p){
 }
 fecha   recFech_inicio (prenda p){
     return (p.fecha_ini);
+}
+int recMes(fecha f){
+return f.mes;
+}
+int recAnio(fecha f){
+return f.anio;
 }
 fecha recFech_fin (prenda p){
     return (p.fecha_fin);

@@ -22,24 +22,24 @@ void init (lista *L){
 }
 
 int isempty (lista L){
-return(if L.cab ==NULL)}
+return(L.cab ==NULL);}
 
-int copy (lista *L){
-return(L.ultimo)}
+int copy (lista L){
+return L.aux; }
 
 void insert (lista *L, prenda elemento){
 nodo *nuevo;
 nuevo=(nodo*)malloc(sizeof(nodo));
-nuevo.vipd=elemento;
-if ( isempty(L) )// isempty
+(*nuevo).vipd=elemento;
+if ( (L->cab==NULL)== 1 )
     {
-    (*L).cabeza=nuevo;
-    nuevo.puntero=(*L).ultimo;
-    (*L).ultimo=(*L).cabeza;
-    (*L).aux=(*L).cabeza; }
+    (*L).cab=nuevo;
+    (*nuevo).puntero=(*L).ultimo;
+    (*L).ultimo=(*L).cab;
+    (*L).aux=(*L).cab; }
 else {
         (*L).aux=nuevo;
-        nuevo.puntero=(*L).ultimo;
+        (*nuevo).puntero=(*L).ultimo;
         (*L).ultimo=nuevo;
 }
 
@@ -55,11 +55,9 @@ void forward (lista *L){
 (*L).ultimo=(*L).ultimo;
 }
 
-void supress (lista *L){
-    {
-void Isoos(){
-    
+void supress (lista *L){}
 
-
-
+int Isoos(lista L){
+ return (L.ultimo==NULL);
+}
 #endif // LISTA_H_INCLUDED

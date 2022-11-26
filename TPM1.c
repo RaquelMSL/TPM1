@@ -191,7 +191,26 @@ void cargar_Clientes(lista *lx)
         cargar_prenda(&lx);
 }
 
-prenda buscaNroyTramite()
+prenda buscaNroyTramite(lista lx,int nroX,int nro_TrX)
+{
+    if(isempty(lx)==1)
+        printf("error");
+    else{
+        reset(&lx);
+        prenda aux=copy(lx);
+        while(Isoos(lx)!=1 && (recNum_doc(recDoc_Cliente(aux))!=nroX || recNum_tramite(recDoc_Cliente(aux))!=nro_TrX))
+        {
+            forward(&lx);
+            aux=copy(lx);
+        }
+        if(Isoos(lx)==1) printf("error");
+        else{
+            return copy(lx);
+        }
+        }
+    }
+
+
 
 /*
 void mostrar_vehiculo_y_prenda(prenda *p,lista *L,int marca,int modelo,?){

@@ -23,7 +23,7 @@ long long num_tramite;
 
 typedef struct{
 float ing_M_garante;
-documento doc_garante[6];
+documento doc_garante;
 }garante;
 
 typedef struct{
@@ -148,6 +148,15 @@ long long  recCuil (cliente p){
 float ingMensual_cliente (cliente p){
     return (p.ing_Men);
 }
+
+documento recDoc_Cliente(prenda p){
+return p.C.doc;
+}
+
+documento recDoc_Garante(prenda p){
+return p.G.doc_garante;
+}
+
 int recTipo_doc (documento p){
     return (p.doc);
 }

@@ -24,8 +24,8 @@ void init (lista *L){
 int isempty (lista L){
 return(L.cab ==NULL);}
 
-int copy (lista L){
-return L.aux; }
+prenda copy (lista L){
+return L.aux->vipd; }
 
 void insert (lista *L, prenda elemento){
 nodo *nuevo;

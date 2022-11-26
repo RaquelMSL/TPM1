@@ -102,7 +102,25 @@ void Ingresar_Prenda ( prenda *P,float capital_entregadox,int cantidad_cuotasx,i
     (*P).fecha_fin= fecha_finx;
     (*P).G = gx;
 }
+int vigente(prenda p){
+    return (p.cantidad_cuotas-p.cantidad_cuotas_pagas);
+}
+float calcMontoTotal(prenda p){
+    return p.interes_mensual+(p.interes_mensual*p.cantidad_cuotas);
+}
 
+void iniGarante(garante *g){
+    (*g).ing_M_garante=-1;
+}
+float recIngMensual_C(prenda p){
+    return p.C.ing_Men;
+}
+void setIngreso_Mensual_Garante(prenda *p,float ingX){
+(*p).G.ing_M_garante=ingX;
+}
+vehiculo recAuto(prenda p){
+    return p.V;
+}
 int recMac (vehiculo p){
     return (p.marca);
 }
@@ -112,8 +130,12 @@ char* recPat (vehiculo p){
 float recVal_Tasa (vehiculo p){
     return (p.valor_tasacion);
 }
-int rectMod (vehiculo p){
+int recMod (vehiculo p){
     return (p.modelo);
+}
+
+void modificar_cuotasPagas(prenda *p,int n){
+(*p).cantidad_cuotas_pagas+=n;
 }
 int recCant_cuotas (prenda p){
     return (p.cantidad_cuotas);
@@ -127,8 +149,18 @@ float recCap_entregado (prenda p){
 float recInteres (prenda p){
     return (p.interes_mensual);
 }
+
+void modificaMesFIN(prenda *p,int mesx){
+(*p).fecha_fin.mes=mesx;
+}
+void restAnio(prenda *p){
+(*p).fecha_fin.anio--;
+}
 fecha   recFech_inicio (prenda p){
     return (p.fecha_ini);
+}
+int recDia(fecha f){
+return f.dia;
 }
 int recMes(fecha f){
 return f.mes;
@@ -138,6 +170,9 @@ return f.anio;
 }
 fecha recFech_fin (prenda p){
     return (p.fecha_fin);
+}
+cliente rec_Cliente(prenda p){
+ return p.C;
 }
 char* recNyApe (cliente p){
     return (p.NyAp);

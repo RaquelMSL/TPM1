@@ -281,6 +281,247 @@ void Inciso7(lista lx,long int nroX,long long int nro_TrX){
         }
 }
 
+int Buscar_Marca(lista l, int marca, int cambio){ //inciso8
+	int cant =0;prenda aux;
+	if (isempty (l)==1){
+		return -1;}
+	else{
+		reset(&l);
+		while(Isoos(l)!=1){
+			aux=copy(l);
+			if (recMac(recAuto(aux))==marca){
+				modificaMac(&aux,cambio); //cambio es la variable donde viene la marca dada por el usuariopara remplazar
+				cant=cant+1;
+			}
+			forward(&l);
+		}
+	}
+	return(cant);
+}
+
+int Buscar_Marca_masVendida(lista l){//inciso9
+	int cant =0;
+	int aux[2]={0,0,0};
+	prenda auxp;
+	if (isempty (l)==1)
+		return(-1);
+	else{
+		reset(&l);
+		while(Isoos(l)!=1){
+			auxp=copy(l);
+			if (recMac(recAuto(auxp))==1)
+				aux[0]+=1;
+			else{
+				if (recMac(recAuto(auxp))==2)
+					aux[1]+=1;
+				else
+					aux[2]+=1;
+			}
+			forward(&l);
+		}
+	if (aux[0]>aux[1]){
+		if(aux[0]>aux[2])
+			return(aux[0]);
+
+		else{
+			return(aux[2]);}}
+	else{
+		if (aux[1]>aux[2])
+			return(aux[1]);
+		else
+			{return(aux[2]);}
+	}
+}
+}
+
+void Inciso10(lista p){
+    lista lx;init(&lx);
+    prenda aux;
+	cliente auxCliente;
+	vehiculo auxAuto;
+	fecha auxfecha;
+	garante auxGarante;
+	documento auxdoc_garante, auxdoc_cliente;
+
+    if(isempty(p)!=1) printf("error");
+    else{
+        reset(&p);
+        prenda aux=copy(p);
+        while(Isoos(p)!=1){
+            if(vigente(aux)>0){
+                insert(&lx,aux);}
+            forward(&p);
+            aux=copy(p);
+        }
+        ordenaMenorFechaFin(&lx);
+        reset(&lx);
+        while(Isoos(lx)!=1){
+            //imprime datos cliente
+				auxCliente= rec_cliente(copy(lx));
+				auxdoc_cliente=recDoc_Cliente(copy(lx));
+				printf("Nombre: %s \n",auxCliente.NyAp);
+				printf("Cuit: %d\n",auxCliente.cuit);
+				printf("Ingreso Mensual: %0.2f\n", auxCliente.ing_Men);
+				printf("Tipo de documento: %d\n",auxdoc_cliente.doc );
+				printf("Numero de documento:%d\n",auxdoc_cliente.nro_doc );
+				printf("Numero de tramite: %lld\n",auxdoc_cliente.num_tramite );
+				//imprime datos garante
+				auxGarante= rec_garante(copy(lx));
+				auxdoc_garante=recDoc_Garante(copy(lx));
+				printf("Ingreso mensual del garante: %0.2f\n", auxGarante.ing_M_garante);
+				printf("%d\n", auxdoc_garante.doc);
+				printf("Numero de documento: %d\n", auxdoc_garante.nro_doc);
+				printf("Numero de tramite: %lld\n", auxdoc_garante.num_tramite);
+				//imprime datos del vehiculo
+				auxAuto=recAuto(copy(lx));
+				printf("Patente: %s\n", auxAuto.pat);
+				printf("Valor de tasacion: %0.2f\n", auxAuto.valor_tasacion);
+				printf("Marca del vehiculo: %d\n", auxAuto.marca);
+				printf("Modelo del vehiculo: %d\n", auxAuto.modelo);
+				//imprime datos de la prenda
+				printf("Capital entregado: %0.2f\n", aux.capital_entregado);
+				printf("Interes mensual: %0.2f\n", aux.interes_mensual);
+				printf("cantidad de cuotas a pagar:%d\n", aux.cantidad_cuotas);
+				printf("Cantidad decuotas pagas: %d\n", aux.cantidad_cuotas_pagas);
+				//imprime fecha de inicio
+				printf("%d fecha inicio", aux.fecha_ini.dia);
+				printf("%d", aux.fecha_ini.mes);
+				printf("%d\n", aux.fecha_ini.anio);
+				//imprime fecha fin
+				printf("%d fecha fin", aux.fecha_fin.dia);
+				printf("%d", aux.fecha_fin.mes);
+				printf("%d\n", aux.fecha_fin.anio);
+				forward(&lx);
+        }
+    }
+}
+
+void PrendraSegun_Modelo(lista l,int modelo){//inciso11
+	prenda aux;
+	cliente auxCliente;
+	vehiculo auxAuto;
+	fecha auxfecha;
+	garante auxGarante;
+	documento auxdoc_garante, auxdoc_cliente;
+	if (isempty(l)==1)
+		printf("error");
+	else{
+		reset (&l);
+		while(Isoos(l)!=1){
+                aux=copy(l);
+			if (recModelo(aux)==modelo){
+				//imprime datos cliente
+				auxCliente= rec_cliente(copy(l));
+				auxdoc_cliente=recDoc_Cliente(copy(l));
+				printf("Nombre: %s \n",auxCliente.NyAp);
+				printf("Cuit: %d\n",auxCliente.cuit);
+				printf("Ingreso Mensual: %0.2f\n", auxCliente.ing_Men);
+				printf("Tipo de documento: %d\n",auxdoc_cliente.doc );
+				printf("Numero de documento:%d\n",auxdoc_cliente.nro_doc );
+				printf("Numero de tramite: %lld\n",auxdoc_cliente.num_tramite );
+				//imprime datos garante
+				auxGarante= rec_garante(copy(l));
+				auxdoc_garante=recDoc_Garante(copy(l));
+				printf("Ingreso mensual del garante: %0.2f\n", auxGarante.ing_M_garante);
+				printf("%d\n", auxdoc_garante.doc);
+				printf("Numero de documento: %d\n", auxdoc_garante.nro_doc);
+				printf("Numero de tramite: %lld\n", auxdoc_garante.num_tramite);
+				//imprime datos del vehiculo
+				auxAuto=recAuto(copy(l));
+				printf("Patente: %s\n", auxAuto.pat);
+				printf("Valor de tasacion: %0.2f\n", auxAuto.valor_tasacion);
+				printf("Marca del vehiculo: %d\n", auxAuto.marca);
+				printf("Modelo del vehiculo: %d\n", auxAuto.modelo);
+				//imprime datos de la prenda
+				printf("Capital entregado: %0.2f\n", aux.capital_entregado);
+				printf("Interes mensual: %0.2f\n", aux.interes_mensual);
+				printf("cantidad de cuotas a pagar:%d\n", aux.cantidad_cuotas);
+				printf("Cantidad decuotas pagas: %d\n", aux.cantidad_cuotas_pagas);
+				//imprime fecha de inicio
+				printf("%d fecha inicio", aux.fecha_ini.dia);
+				printf("%d", aux.fecha_ini.mes);
+				printf("%d\n", aux.fecha_ini.anio);
+				//imprime fecha fin
+				printf("%d fecha fin", aux.fecha_fin.dia);
+				printf("%d", aux.fecha_fin.mes);
+				printf("%d\n", aux.fecha_fin.anio);
+			}
+			forward(&l);
+		}
+	}
+}
+
+void Inciso13(lista l){//inciso11
+	prenda aux;
+	cliente auxCliente;
+	vehiculo auxAuto;
+	fecha auxfecha;
+	garante auxGarante;
+	documento auxdoc_garante, auxdoc_cliente;
+	if (isempty(l)==1)
+		printf("error");
+	else{
+		reset (&l);
+		while(Isoos(l)!=1){
+                aux=copy(l);
+			if (vigente(aux)>0){
+				//imprime datos cliente
+				auxCliente= rec_cliente(copy(l));
+				auxdoc_cliente=recDoc_Cliente(copy(l));
+				printf("Nombre: %s \n",auxCliente.NyAp);
+				printf("Cuit: %d\n",auxCliente.cuit);
+				printf("Ingreso Mensual: %0.2f\n", auxCliente.ing_Men);
+				printf("Tipo de documento: %d\n",auxdoc_cliente.doc );
+				printf("Numero de documento:%d\n",auxdoc_cliente.nro_doc );
+				printf("Numero de tramite: %lld\n",auxdoc_cliente.num_tramite );
+				//imprime datos garante
+				auxGarante= rec_garante(copy(l));
+				auxdoc_garante=recDoc_Garante(copy(l));
+				printf("Ingreso mensual del garante: %0.2f\n", auxGarante.ing_M_garante);
+				printf("%d\n", auxdoc_garante.doc);
+				printf("Numero de documento: %d\n", auxdoc_garante.nro_doc);
+				printf("Numero de tramite: %lld\n", auxdoc_garante.num_tramite);
+				//imprime datos del vehiculo
+				auxAuto=recAuto(copy(l));
+				printf("Patente: %s\n", auxAuto.pat);
+				printf("Valor de tasacion: %0.2f\n", auxAuto.valor_tasacion);
+				printf("Marca del vehiculo: %d\n", auxAuto.marca);
+				printf("Modelo del vehiculo: %d\n", auxAuto.modelo);
+				//imprime datos de la prenda
+				printf("Capital entregado: %0.2f\n", aux.capital_entregado);
+				printf("Interes mensual: %0.2f\n", aux.interes_mensual);
+				printf("cantidad de cuotas a pagar:%d\n", aux.cantidad_cuotas);
+				printf("Cantidad decuotas pagas: %d\n", aux.cantidad_cuotas_pagas);
+				//imprime fecha de inicio
+				printf("%d fecha inicio", aux.fecha_ini.dia);
+				printf("%d", aux.fecha_ini.mes);
+				printf("%d\n", aux.fecha_ini.anio);
+				//imprime fecha fin
+				printf("%d fecha fin", aux.fecha_fin.dia);
+				printf("%d", aux.fecha_fin.mes);
+				printf("%d\n", aux.fecha_fin.anio);
+			}
+			forward(&l);
+		}
+	}
+}
+
+void Inciso14(lista lx,int *sx){//!antes de invocar usar isempty y reset
+    if(Isoos(lx)==1 && vigente(copy(lx))==0)
+    (*sx)=calcMontoTotal(copy(lx));
+    else{
+        if(vigente(copy(lx))==0){
+            (*sx)=calcMontoTotal(copy(lx));
+            forward(&lx);
+            Inciso14(lx,sx);
+        }
+        else{
+            forward(&lx);
+            Inciso14(lx,sx);
+        }
+    }
+}
+
 void Inciso16(lista lx)
 {
     if(isempty(lx)==1) printf("error");
@@ -301,7 +542,7 @@ void Inciso16(lista lx)
     }
 }
 
-int contarGarantes(lista lx){//!antes de invocar usar isempty y reset
+int contarGarantes(lista lx){//!antes de invocar usar isempty y reset inciso17
     if(Isoos(lx)==1){
             if(recIngMensual_C(copy(lx))>0) return 1;
             else{return 0;}
@@ -326,18 +567,3 @@ void Inciso18(lista lx,long int nroX,long long int nro_TrX){
     }
 }
 
-void Inciso14(lista lx,int *sx){//!antes de invocar usar isempty y reset
-    if(Isoos(lx)==1 && vigente(copy(lx))==0)
-    (*sx)=calcMontoTotal(copy(lx));
-    else{
-        if(vigente(copy(lx))==0){
-            (*sx)=calcMontoTotal(copy(lx));
-            forward(&lx);
-            Inciso14(lx,sx);
-        }
-        else{
-            forward(&lx);
-            Inciso14(lx,sx);
-        }
-    }
-}

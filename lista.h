@@ -38,9 +38,9 @@ if ( (L->cab==NULL)== 1 )
     (*L).ultimo=(*L).cab;
     (*L).aux=(*L).cab; }
 else {
+        (*L).cab=nuevo;
+        (*nuevo).puntero=(*L).aux;
         (*L).aux=nuevo;
-        (*nuevo).puntero=(*L).ultimo;
-        (*L).ultimo=nuevo;
 }
 
 }
@@ -60,4 +60,26 @@ void supress (lista *L){}
 int Isoos(lista L){
  return (L.ultimo==NULL);
 }
+
+void ordenaMenorFechaFin(lista *l) //l recibe una lista auxiliar con solo prendas vigentes
+{prenda *pre;l->aux=l->cab;int x1,x2;
+
+while(l->aux->puntero!=NULL)
+{
+l->ultimo=l->aux->puntero;
+while(l->ultimo->puntero!=NULL)
+{
+x1=(l->aux->vipd.cantidad_cuotas - l->aux->vipd.cantidad_cuotas_pagas);
+x2=(l->ultimo->vipd.cantidad_cuotas - l->ultimo->vipd.cantidad_cuotas_pagas);
+if(x1 > x2){
+(*pre)=l->ultimo->vipd;
+l->ultimo->vipd=l->aux->vipd;
+l->aux->vipd=(*pre);
+}
+l->ultimo=l->ultimo->puntero;
+}
+l->aux=l->aux->puntero;
+}
+}
+
 #endif // LISTA_H_INCLUDED

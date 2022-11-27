@@ -102,6 +102,17 @@ void Ingresar_Prenda ( prenda *P,float capital_entregadox,int cantidad_cuotasx,i
     (*P).fecha_fin= fecha_finx;
     (*P).G = gx;
 }
+
+int recModelo(prenda p){
+    return p.V.modelo;
+}
+
+cliente rec_cliente(prenda p){
+    return p.C;
+    }
+garante rec_garante(prenda p){
+    return p.G;
+}
 int vigente(prenda p){
     return (p.cantidad_cuotas-p.cantidad_cuotas_pagas);
 }

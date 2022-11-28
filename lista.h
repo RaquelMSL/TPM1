@@ -88,3 +88,4 @@ l->aux=l->aux->puntero;
 }
 
 #endif // LISTA_H_INCLUDED
+ 

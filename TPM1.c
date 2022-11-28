@@ -65,23 +65,30 @@ long long int nro_tramiteX;
         break;
     case 6:system("cls");
            printf("leer numero de documento");
-           scanf("%ld",nro_docX);fflush(stdin);
+           scanf("%ld",&nro_docX);fflush(stdin);
            printf("leer numero de tramite");
-           scanf("%lld",nro_tramiteX);fflush(stdin);
+           scanf("%lld",&nro_tramiteX);fflush(stdin);
            Inciso7(L,nro_docX,nro_tramiteX);
+           getchar();
         break;
     case 7:system("cls");
         do{
-        printf("\nlea una marca 1:Ford 2:Fiat 3:Chevrolet");
+        printf("\nlea una marca 1:Ford 2:Fiat");
         scanf("%d",&marcax);
-        }while(marcax<1 || marcax>3);
-        Inciso8(L,marcax,4);
+        }while(marcax<1 || marcax>2);
+        n=Inciso8(L,marcax,3);
+        if(n>0) printf("la cantidad de cambios es %d",n);
+        else {printf("error");}
+        getchar();
         break;
     case 8:system("cls");
-        printf("la Marca mas vendidas es %s",MARCAS[Buscar_Marca_masVendida(L)]);
+        n=Buscar_Marca_masVendida(L);
+        if(n>0)printf("la Marca mas vendidas es %s",MARCAS[n]);
+        else{printf("error");}
         break;
     case 9:system("cls");
         Inciso10(L);
+        getchar();
         break;
     case 10:system("cls");
         do{
@@ -89,22 +96,25 @@ long long int nro_tramiteX;
         scanf("%d",&modelox);
         }while(modelox<1 || modelox>9);
         PrendaSegun_Modelo(L,modelox);
+        getchar();
         break;
     case 11:system("cls");
-        //inciso12
+        Prenda_Mayor_y_menor_monto(L);
+        getchar();
         break;
     case 12:system("cls");
         Inciso13(L);
+        getchar();
         break;
     case 13:system("cls");
         if(isempty!=1){
          reset(&L);
          Inciso14(L,&sumx);
-         printf("la suma de lo monto total de le las prendas vigente es %0.2f",sumx);
-    }
-    else{printf("error");}
+         printf("la suma de lo monto total de le las prendas vigente es %0.2f",sumx);getchar();
+        }
+    else{printf("error");getchar();}
         break;
-    case 14:Inciso16(L);
+    case 14:Inciso16(L);getchar();
         break;
     case 15:
         if(isempty!=1){
@@ -112,7 +122,7 @@ long long int nro_tramiteX;
          printf("cantidad de prendas con garante:%d",contarGarantes(L));
          getchar();
     }
-    else{printf("error");}
+    else{printf("error");getchar();}
         break;
     case 16:
            printf("leer numero de documento");
@@ -120,10 +130,12 @@ long long int nro_tramiteX;
            printf("leer numero de documento");
            scanf("%lld",nro_tramiteX);
            Inciso18(L,nro_docX,nro_tramiteX);
+           getchar();
         break;
-    case 17:
+    case 17:printf("la cantidad guardada es %d",guardar_archivo(L));getchar();
         break;
-    case 18:
+    case 18:printf("la cantidad cargada es %d",cargar_en_lista(&L));getchar();
+
     default:printf("error");
     }
 system("cls");
@@ -143,7 +155,7 @@ vehiculo vx;
     printf("Ingrese la patente del vehiculo\n");
 gets(patente);
 do{
-    printf("Ingrese la opcion de la marca a utilizar 1)Ford 2)Fiat 3)Chevrolet\n");
+    printf("Ingrese la opcion de la marca a utilizar 1)Ford 2)Fiat 3)MAZDA\n");
     scanf("%d",&marca);fflush(stdin);
 }while(marca < 1 || marca > 3);
 switch(marca){
@@ -194,7 +206,8 @@ return gx;
 cliente cargarCliente(){
 int tipo_doc;
 float ingreso_m;
-char nyap [35];
+char nomb [30];
+char ap[30];
 long int numero;
 long long int n_tramite,cuit;
 cliente cx;
@@ -208,12 +221,14 @@ scanf("%lld",&n_tramite);fflush(stdin);
 printf("Ingrese el numero del documento \n");
 scanf("%d",&numero); fflush(stdin);
 printf("Ingrese el nombre del cliente \n");
-gets(nyap);
+scanf("%s",&nomb);
+printf("Ingrese el apellido del cliente \n");
+scanf("%s",&ap);
 printf("Ingrese el monto del ingreso mensual del cliente \n");
 scanf("%f",&ingreso_m);fflush(stdin);
 printf("Ingrese el cuit del cliente \n");
 scanf("%lld",&cuit);fflush(stdin);
-Ingresar_cliente(&cx,nyap,cuit,ingreso_m,tipo_doc,numero,n_tramite);
+Ingresar_cliente(&cx,nomb,ap,cuit,ingreso_m,tipo_doc,numero,n_tramite);
 return cx;
 }
 
@@ -320,7 +335,7 @@ void Inciso5(lista lx){
         reset(&lx);
             do{
                 auxc=rec_cliente(copy(lx));auxv=recAuto(copy(lx));
-                printf("datos del titular:\n NyAP:%s Tipo de documento:%s numero de documento:%ld numero de tramite:%lld",auxc.NyAp,TIPODOC[auxc.doc.doc-1],auxc.doc.nro_doc,auxc.doc.num_tramite);getchar();
+                printf("datos del titular:\n NyAP:%s %s Tipo de documento:%s numero de documento:%ld numero de tramite:%lld",auxc.nombre,auxc.apellido,TIPODOC[auxc.doc.doc-1],auxc.doc.nro_doc,auxc.doc.num_tramite);getchar();
                 printf("\ndatos de vehiculo:\n patente:%s valor tasacion:%0.2f marca:%s modelo:%s\n\n",auxv.pat,auxv.valor_tasacion,MARCAS[auxv.marca-1],MODELOS[auxv.marca-1][auxv.modelo-1]);getchar();
                 forward(&lx);
             }while(Isoos(lx)!=1);
@@ -368,7 +383,8 @@ void Inciso7(lista *lx,long int nroX,long long int nro_TrX){
     buscaNroyTramite2(lx,nroX,nro_TrX,&flag);
     if(flag!=1) printf("error\n");
     else{
-        m=recCant_cuotas(aux)-recCant_cuotasPagas(aux);
+        aux=copy(*lx);
+        m=aux.cantidad_cuotas-aux.cantidad_cuotas_pagas;
         do{
             printf("lea cantidad de cuotas a adelantar maximo %d",m);
             scanf("%d",&nx);
@@ -380,22 +396,24 @@ void Inciso7(lista *lx,long int nroX,long long int nro_TrX){
             restAnio(&aux);
         }
         modificaMesFIN(&aux,mesx);
+        setVipd(lx,aux);
         }
 }
 
-int Inciso8(lista l, int marca, int cambio){
+int Inciso8(lista *l, int marca, int cambio){
 	int cant =0;prenda aux;
-	if (isempty (l)==1){
+	if (isempty (*l)==1){
 		return -1;}
 	else{
-		reset(&l);
-		while(Isoos(l)!=1){
-			aux=copy(l);
+		reset(l);
+		while(Isoos(*l)!=1){
+			aux=copy(*l);
 			if (recMac(recAuto(aux))==marca){
 				modificaMac(&aux,cambio); //cambio es la variable donde viene la marca dada por el usuariopara remplazar
+				setVipd(l,aux);
 				cant=cant+1;
 			}
-			forward(&l);
+			forward(l);
 		}
 	}
 	return(cant);
@@ -461,7 +479,7 @@ void Inciso10(lista p){
             //imprime datos cliente
 				auxCliente= rec_cliente(copy(lx));
 				auxdoc_cliente=recDoc_Cliente(copy(lx));
-				printf("Nombre: %s \n",auxCliente.NyAp);
+				printf("NyAp: %s %s \n",auxCliente.nombre,auxCliente.apellido);
 				printf("Cuit: %d\n",auxCliente.cuit);
 				printf("Ingreso Mensual: %0.2f\n", auxCliente.ing_Men);
 				printf("Tipo de documento: %d\n",auxdoc_cliente.doc );
@@ -515,7 +533,7 @@ void PrendaSegun_Modelo(lista l,int modelo){//inciso11
 				//imprime datos cliente
 				auxCliente= rec_cliente(copy(l));
 				auxdoc_cliente=recDoc_Cliente(copy(l));
-				printf("Nombre: %s \n",auxCliente.NyAp);
+				printf("NyAp: %s %s \n",auxCliente.nombre,auxCliente.apellido);
 				printf("Cuit: %d\n",auxCliente.cuit);
 				printf("Ingreso Mensual: %0.2f\n", auxCliente.ing_Men);
 				printf("Tipo de documento: %d\n",auxdoc_cliente.doc );
@@ -553,6 +571,92 @@ void PrendaSegun_Modelo(lista l,int modelo){//inciso11
 	}
 }
 
+void Prenda_Mayor_y_menor_monto(lista l){//12
+	float Mayor=0,Min=99999999999999999;
+	prenda auxp,p,auxmin;
+	float interes, total;
+	if (isempty (l))
+		return(-1);
+	else{
+		reset(&l);
+		while(Isoos(l)!=1){
+			p= copy (l);
+			interes =p.V.valor_tasacion*p.cantidad_cuotas/100;
+			total=p.V.valor_tasacion+(interes*p.cantidad_cuotas);
+			if (total >Mayor){
+				Mayor=total;
+				auxp=copy(l);
+			}
+			if (total <Min){
+				Min=total;
+				auxmin=copy(l);
+			}
+			forward(&l);
+		}
+		printf("prenda de Mayor monto: \n");//imprime datos cliente
+				printf("NyAp: %s %s \n",auxp.C.nombre,auxp.C.apellido);
+				printf("Cuit: %d\n", auxp.C.cuit);
+				printf("Ingreso Mensual: %0.2f\n", auxp.C.ing_Men);
+				printf("Tipo de documento: %d\n",auxp.C.doc.doc);
+				printf("Numero de documento:%d\n",auxp.C.doc.nro_doc);
+				printf("Numero de tramite: %lld\n",auxp.C.doc.num_tramite);
+				//imprime datos garante
+				printf("Ingreso mensual del garante: %0.2f\n", auxp.G.ing_M_garante);
+				printf("%d\n", auxp.G.doc_garante.doc);
+				printf("Numero de documento: %d\n", auxp.G.doc_garante.nro_doc);
+				printf("Numero de tramite: %lld\n", auxp.G.doc_garante.num_tramite);
+				//imprime datos del vehiculo
+				printf("Valor de tasacion: %0.2f\n", auxp.V.valor_tasacion);
+				printf("Marca del vehiculo: %d\n", auxp.V.marca);
+				printf("Modelo del vehiculo: %d\n", auxp.V.modelo);
+				printf("patente : %d\n", auxp.V.pat);
+				//imprime datos de la prenda
+				printf("Capital entregado: %0.2f\n", auxp.capital_entregado);
+				printf("Interes mensual: %0.2f\n", auxp.interes_mensual);
+				printf("cantidad de cuotas a pagar:%d\n", auxp.cantidad_cuotas);
+				printf("Cantidad decuotas pagas: %d\n", auxp.cantidad_cuotas_pagas);
+				//imprime fecha de inicio
+				printf("%d fecha inicio", auxp.fecha_ini.dia);
+				printf("%d", auxp.fecha_ini.mes);
+				printf("%d\n", auxp.fecha_ini.anio);
+				//imprime fecha fin
+				printf("%d fecha fin", auxp.fecha_fin.dia);
+				printf("%d", auxp.fecha_fin.mes);
+				printf("%d\n", auxp.fecha_fin.anio);
+
+				printf("renda de menor monto: \n");//imprime datos cliente
+				printf("NyAp: %s %s \n",auxmin.C.nombre,auxmin.C.apellido);
+				printf("Cuit: %d\n", auxmin.C.cuit);
+				printf("Ingreso Mensual: %0.2f\n", auxmin.C.ing_Men);
+				printf("Tipo de documento: %d\n",auxmin.C.doc.doc);
+				printf("Numero de documento:%d\n",auxmin.C.doc.nro_doc);
+				printf("Numero de tramite: %lld\n",auxmin.C.doc.num_tramite);
+				//imprime datos garante
+				printf("Ingreso mensual del garante: %0.2f\n", auxmin.G.ing_M_garante);
+				printf("%d\n", auxmin.G.doc_garante.doc);
+				printf("Numero de documento: %d\n", auxmin.G.doc_garante.nro_doc);
+				printf("Numero de tramite: %lld\n", auxmin.G.doc_garante.num_tramite);
+				//imprime datos del vehiculo
+				printf("Valor de tasacion: %0.2f\n", auxmin.V.valor_tasacion);
+				printf("Marca del vehiculo: %d\n", auxmin.V.marca);
+				printf("Modelo del vehiculo: %d\n", auxmin.V.modelo);
+				printf("patente : %d\n", auxmin.V.pat);
+				//imprime datos de la prenda
+				printf("Capital entregado: %0.2f\n", auxmin.capital_entregado);
+				printf("Interes mensual: %0.2f\n", auxmin.interes_mensual);
+				printf("cantidad de cuotas a pagar:%d\n", auxmin.cantidad_cuotas);
+				printf("Cantidad decuotas pagas: %d\n", auxmin.cantidad_cuotas_pagas);
+				//imprime fecha de inicio
+				printf("%d fecha inicio", auxmin.fecha_ini.dia);
+				printf("%d", auxmin.fecha_ini.mes);
+				printf("%d\n", auxmin.fecha_ini.anio);
+				//imprime fecha fin
+				printf("%d fecha fin", auxmin.fecha_fin.dia);
+				printf("%d", auxmin.fecha_fin.mes);
+				printf("%d\n", auxmin.fecha_fin.anio);
+				}
+}
+
 void Inciso13(lista l){
 	prenda aux;
 	cliente auxCliente;
@@ -570,7 +674,7 @@ void Inciso13(lista l){
 				//imprime datos cliente
 				auxCliente= rec_cliente(copy(l));
 				auxdoc_cliente=recDoc_Cliente(copy(l));
-				printf("Nombre: %s \n",auxCliente.NyAp);
+				printf("NyAp: %s %s \n",auxCliente.nombre,auxCliente.apellido);
 				printf("Cuit: %d\n",auxCliente.cuit);
 				printf("Ingreso Mensual: %0.2f\n", auxCliente.ing_Men);
 				printf("Tipo de documento: %d\n",auxdoc_cliente.doc );
@@ -630,10 +734,10 @@ void Inciso16(lista lx){
         reset(&lx);
         while(Isoos(lx)!=1)
             {
-                if(recIngMensual_G(copy(lx))>0){
-                printf("datos del titular:\n NyAP:%s Tipo de documento:%s numero de documento:&d",
-                       recNyApe(rec_Cliente(copy(lx))),
-                       TIPODOC[recTipo_doc(recDoc_Cliente(copy(lx)))-1],recNum_doc(recDoc_Cliente(copy(lx))));
+                prenda aux=copy(lx);
+                if(recIngMensual_G(aux)>0){
+                printf("datos del titular:\n NyAP:%s %s Tipo de documento:%s numero de documento:&d",
+                       aux.C.nombre,aux.C.apellido,TIPODOC[recTipo_doc(recDoc_Cliente(copy(lx)))-1],aux.C.doc.nro_doc);
                 printf("datos de vehiculo:\n patente:%s valor tasacion:%0.2f marca:%s modelo:%s\n\n",recPat(recAuto(copy(lx))),
                        recVal_Tasa(recAuto(copy(lx))),MARCAS[recMac(recAuto(copy(lx)))-1],
                        MODELOS[recMac(recAuto(copy(lx)))-1][recMod(recAuto(copy(lx)))-1]);
@@ -668,3 +772,92 @@ void Inciso18(lista lx,long int nroX,long long int nro_TrX){
     }
 }
 
+int cargar_en_lista(lista *l){
+    int cantidad = 0;
+    FILE *archivo;
+    archivo = fopen("archivo.txt","r");
+    prenda p;
+    if (archivo == NULL){
+        printf ("ERROR al abrir el archivo");
+        exit(1);
+    }else{
+        init(l);
+        while(!feof(archivo)){
+            fscanf(archivo,"%s", p.C.nombre);
+            fscanf(archivo,"%s", p.C.apellido);
+            fscanf(archivo,"%lli",&p.C.cuit);
+            fscanf(archivo,"%d", &p.C.doc.doc);
+            fscanf(archivo,"%d", &p.C.doc.nro_doc);
+            fscanf(archivo,"%lli",&p.C.doc.num_tramite);
+            fscanf(archivo,"%f", &p.C.ing_Men);
+            fscanf(archivo,"%d", &p.G.doc_garante.doc);
+            fscanf(archivo,"%d", &p.G.doc_garante.nro_doc);
+            fscanf(archivo,"%lli",&p.G.doc_garante.num_tramite);
+            fscanf(archivo,"%f", &p.G.ing_M_garante);
+            fscanf(archivo,"%d", &p.V.marca);
+            fscanf(archivo,"%d", &p.V.modelo);
+            fscanf(archivo,"%s", p.V.pat);
+            fscanf(archivo,"%f", &p.V.valor_tasacion);
+            fscanf(archivo,"%f", &p.capital_entregado);
+            fscanf(archivo,"%f", &p.interes_mensual);
+            fscanf(archivo,"%d", &p.cantidad_cuotas);
+            fscanf(archivo,"%d", &p.fecha_ini.dia);
+            fscanf(archivo,"%d", &p.fecha_ini.mes);
+            fscanf(archivo,"%d", &p.fecha_ini.anio);
+            fscanf(archivo,"%d", &p.fecha_fin.dia);
+            fscanf(archivo,"%d", &p.fecha_fin.mes);
+            fscanf(archivo,"%d", &p.fecha_fin.anio);
+            fscanf(archivo,"%d", &p.cantidad_cuotas_pagas);
+            cantidad++;
+            insert(l,p);
+        }
+    }
+    fclose(archivo);
+    return cantidad;
+}
+
+int guardar_archivo(lista l){
+    prenda p;
+    int cant=0;
+    reset(&l);
+    FILE *archivo;
+    archivo= fopen("archivo.txt","w");
+       if (archivo==NULL){
+            printf ("ERROR al abrir el archivo");
+            exit(1);
+       }else{
+           while(Isoos(l)!=1){
+                p=copy(l);
+                forward(&l);
+                fprintf(archivo,"%s\n", p.C.nombre);
+                fprintf(archivo,"%s\n", p.C.apellido);
+                fprintf(archivo,"%lli\n", p.C.cuit);
+                fprintf(archivo,"%d\n", p.C.doc.doc);
+                fprintf(archivo,"%d\n", p.C.doc.nro_doc);
+                fprintf(archivo,"%lli\n", p.C.doc.num_tramite);
+                fprintf(archivo,"%f\n", p.C.ing_Men);
+                fprintf(archivo,"%d\n", p.G.doc_garante.doc);
+                fprintf(archivo,"%d\n", p.G.doc_garante.nro_doc);
+                fprintf(archivo,"%lli\n", p.G.doc_garante.num_tramite);
+                fprintf(archivo,"%f\n", p.G.ing_M_garante);
+                fprintf(archivo,"%d\n", p.V.marca);
+                fprintf(archivo,"%d\n", p.V.modelo);
+                fprintf(archivo,"%s\n", p.V.pat);
+                fprintf(archivo,"%f\n", p.V.valor_tasacion);
+                fprintf(archivo,"%f\n", p.capital_entregado);
+                fprintf(archivo,"%f\n", p.interes_mensual);
+                fprintf(archivo,"%d\n", p.cantidad_cuotas);
+                fprintf(archivo,"%d\n", p.fecha_ini.dia);
+                fprintf(archivo,"%d\n", p.fecha_ini.mes);
+                fprintf(archivo,"%d\n", p.fecha_ini.anio);
+                fprintf(archivo,"%d\n", p.fecha_fin.dia);
+                fprintf(archivo,"%d\n", p.fecha_fin.mes);
+                fprintf(archivo,"%d\n", p.fecha_fin.anio);
+                if (Isoos(l)==1) fprintf(archivo,"%d", p.cantidad_cuotas_pagas);
+                else fprintf(archivo,"%d\n", p.cantidad_cuotas_pagas);
+                cant ++;
+            }
+        }
+    fclose(archivo);
+    return cant;
+}

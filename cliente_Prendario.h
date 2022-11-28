@@ -28,7 +28,8 @@ documento doc_garante;
 
 typedef struct{
 documento doc;
-char NyAp[30];
+char nombre[30];
+char apellido[30];
 long long cuit;
 float ing_Men;
 }cliente;
@@ -50,8 +51,9 @@ void IngresarDoc (documento *D,int docx,int nro_docx,long long num_tramitex ){
     (*D).nro_doc = nro_docx;
     (*D).num_tramite = num_tramitex;
 }
-void Ingresar_cliente  ( cliente *C, char *NyApx, long long Cuit, float ing_Mx,int docx,int nro_docx,long long num_tramitex   ){
-    strcpy((*C).NyAp,NyApx);
+void Ingresar_cliente  ( cliente *C, char *nombrex,char *apellidox , long long Cuit, float ing_Mx,int docx,int nro_docx,long long num_tramitex   ){
+    strcpy((*C).nombre,nombrex);
+    strcpy((*C).apellido,apellidox);
     (*C).cuit = Cuit;
     (*C).ing_Men = ing_Mx;
     IngresarDoc(&C->doc,docx,nro_docx,num_tramitex );
@@ -191,8 +193,11 @@ fecha recFech_fin (prenda p){
 cliente rec_Cliente(prenda p){
  return p.C;
 }
-char* recNyApe (cliente p){
-    return (p.NyAp);
+char* recNombre (cliente p){
+    return (p.nombre);
+}
+char* recApellido (cliente p){
+    return (p.apellido);
 }
 long long  recCuil (cliente p){
     return (p.cuit);

@@ -25,34 +25,39 @@ int isempty (lista L){
 return(L.cab ==NULL);}
 
 prenda copy (lista L){
-return L.aux->vipd; }
+return L.ultimo->vipd; }
 
-void insert (lista *L, prenda elemento){
+void insert(lista *L, prenda elemento){
 nodo *nuevo;
 nuevo=(nodo*)malloc(sizeof(nodo));
-(*nuevo).vipd=elemento;
+nuevo->vipd=elemento;
 if ( (L->cab==NULL)== 1 )
     {
-    (*L).cab=nuevo;
-    (*nuevo).puntero=(*L).ultimo;
-    (*L).ultimo=(*L).cab;
-    (*L).aux=(*L).cab; }
+    L->cab=nuevo;
+    nuevo->puntero=(*L).ultimo;
+    L->ultimo=L->cab;
+    L->aux=L->cab;
+    }
 else {
-        (*L).cab=nuevo;
-        (*nuevo).puntero=(*L).aux;
-        (*L).aux=nuevo;
+        L->cab=nuevo;
+        nuevo->puntero=L->aux;
+        L->aux=nuevo;
 }
 
 }
 
 void reset (lista *L){
-(*L).ultimo=(*L).cab;
-(*L).aux=(*L).cab;
+L->ultimo=L->cab;
+L->aux=L->cab;
 }
 
 void forward (lista *L){
-(*L).aux=(*L).ultimo;
-(*L).ultimo=(*L).ultimo;
+L->aux=L->ultimo;
+L->ultimo=L->ultimo->puntero;
+}
+
+void setVipd(lista *l,prenda p){
+    l->ultimo->vipd=p;
 }
 
 void supress (lista *L){}

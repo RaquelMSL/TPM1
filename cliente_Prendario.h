@@ -50,7 +50,7 @@ void IngresarDoc (documento *D,int docx,int nro_docx,long long num_tramitex ){
     (*D).nro_doc = nro_docx;
     (*D).num_tramite = num_tramitex;
 }
-void Ingresar_cliente  ( cliente *C, char NyApx, long long Cuit, float ing_Mx,int docx,int nro_docx,long long num_tramitex   ){
+void Ingresar_cliente  ( cliente *C, char *NyApx, long long Cuit, float ing_Mx,int docx,int nro_docx,long long num_tramitex   ){
     strcpy((*C).NyAp,NyApx);
     (*C).cuit = Cuit;
     (*C).ing_Men = ing_Mx;
@@ -90,23 +90,24 @@ else{
     }
 }
 }
-void Ingresar_Prenda ( prenda *P,float capital_entregadox,int cantidad_cuotasx,int cantidad_cuotas_pagasx, cliente cx, vehiculo vx, fecha fecha_inix, fecha fecha_finx, garante gx ) {
-    (*P).capital_entregado = capital_entregadox;
-    (*P).interes_mensual=calcInteres(capital_entregadox,vx.valor_tasacion);
-    //(*P).intereses_mensual=intereses_mensualx; vean
-    (*P).cantidad_cuotas = cantidad_cuotasx;
-    (*P).cantidad_cuotas_pagas = cantidad_cuotas_pagasx;
-    (*P).C = cx;
-    (*P).V=  vx;
-    (*P).fecha_ini= fecha_inix;
-    (*P).fecha_fin= fecha_finx;
-    (*P).G = gx;
+prenda Ingresar_Prenda ( float capital_entregadox,int cantidad_cuotasx,int cantidad_cuotas_pagasx, cliente cx, vehiculo vx, fecha fecha_inix, fecha fecha_finx, garante gx ) {
+    prenda p;
+    p.capital_entregado = capital_entregadox;
+    p.interes_mensual=calcInteres(capital_entregadox,vx.valor_tasacion);
+    p.cantidad_cuotas = cantidad_cuotasx;
+    p.cantidad_cuotas_pagas = cantidad_cuotas_pagasx;
+    p.C=cx;
+    p.V=vx;
+    p.fecha_ini= fecha_inix;
+    p.fecha_fin= fecha_finx;
+    p.G=gx;
+    return p;
 }
+
 
 int recModelo(prenda p){
     return p.V.modelo;
 }
-
 cliente rec_cliente(prenda p){
     return p.C;
     }
@@ -117,17 +118,19 @@ int vigente(prenda p){
     return (p.cantidad_cuotas-p.cantidad_cuotas_pagas);
 }
 float calcMontoTotal(prenda p){
-    return p.interes_mensual+(p.interes_mensual*p.cantidad_cuotas);
+    float apagar=(p.V.valor_tasacion-p.capital_entregado),montoMensual;
+    montoMensual=(apagar/p.cantidad_cuotas)*p.interes_mensual/100;
+    return (montoMensual*p.cantidad_cuotas)+p.capital_entregado;
 }
 
 void iniGarante(garante *g){
     (*g).ing_M_garante=-1;
 }
+float recIngMensual_G(prenda p){
+    return p.G.ing_M_garante;
+}
 float recIngMensual_C(prenda p){
     return p.C.ing_Men;
-}
-void setIngreso_Mensual_Garante(prenda *p,float ingX){
-(*p).G.ing_M_garante=ingX;
 }
 vehiculo recAuto(prenda p){
     return p.V;
@@ -204,6 +207,9 @@ return p.C.doc;
 
 documento recDoc_Garante(prenda p){
 return p.G.doc_garante;
+}
+documento recDoc_Garante2(prenda *p){
+return p->G.doc_garante;
 }
 
 int recTipo_doc (documento p){
